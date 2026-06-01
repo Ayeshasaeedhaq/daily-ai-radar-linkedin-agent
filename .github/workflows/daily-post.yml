@@ -1,0 +1,39 @@
+name: Daily AI Radar LinkedIn Agent
+
+on:
+  schedule:
+    # 8:00 AM Central Standard Time. During daylight saving time this runs at 9:00 AM Central.
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-daily-post:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate daily AI Radar package
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-3-5-sonnet-latest' }}
+          APP_TIMEZONE: America/Chicago
+        run: python main.py
+
+      - name: Commit generated outputs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Generate daily AI Radar LinkedIn package"
+          file_pattern: outputs/*.md data/*.csv

@@ -1,0 +1,11 @@
+signal_review:
+  output: Ranked top 10 enterprise AI signals with summaries, credibility notes, and why each matters.
+
+strategy:
+  output: Selected topic, selected angle, why today, confidence score, and strategic framing.
+
+post:
+  output: Ready-to-publish LinkedIn post with no hashtags, emojis, clickbait, or fabricated numbers.
+
+qc:
+  output: Final quality-controlled post plus visual brief, source log, and reasoning log.

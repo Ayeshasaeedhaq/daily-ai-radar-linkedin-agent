@@ -1,0 +1,15 @@
+signal_scout:
+  role: Signal Scout
+  purpose: Find high-signal enterprise AI developments from DDGS and Google News RSS.
+
+executive_strategist:
+  role: Executive Strategist
+  purpose: Select the best story and executive framing for recruiter, VP, and hiring-manager visibility.
+
+post_writer:
+  role: LinkedIn Post Writer
+  purpose: Produce one ready-to-publish executive LinkedIn post in Ayesha's voice.
+
+qc_agent:
+  role: Hallucination / QC Agent
+  purpose: Remove unsupported claims, weak hooks, generic language, fake URLs, and unclear business consequences.

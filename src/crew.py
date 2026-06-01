@@ -6,6 +6,7 @@ from getpass import getpass
 from pathlib import Path
 from typing import Any
 
+from anthropic import Anthropic
 from crewai import Crew, LLM, Process, Task
 from dotenv import load_dotenv
 
@@ -27,13 +28,34 @@ OUTPUT_DIR = ROOT / "outputs"
 
 
 def _build_llm() -> LLM:
-    model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         api_key = getpass("Enter your Anthropic API key. It will not be saved: ").strip()
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is required to run the agent.")
+    model = os.getenv("ANTHROPIC_MODEL") or _resolve_available_model(api_key)
     return LLM(model=f"anthropic/{model}", api_key=api_key)
+
+
+def _resolve_available_model(api_key: str) -> str:
+    preferred = [
+        "claude-sonnet-4-20250514",
+        "claude-3-7-sonnet-20250219",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-5-haiku-20241022",
+        "claude-3-haiku-20240307",
+    ]
+    client = Anthropic(api_key=api_key)
+    models = list(client.models.list().data)
+    available = [model.id for model in models]
+    for model_id in preferred:
+        if model_id in available:
+            print(f"Using Anthropic model: {model_id}")
+            return model_id
+    if available:
+        print(f"Using first available Anthropic model: {available[0]}")
+        return available[0]
+    raise RuntimeError("No Anthropic models were returned for this API key.")
 
 
 def _collect_signals() -> list[dict[str, Any]]:

@@ -44,7 +44,7 @@ Open `.env` and add:
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
-The default model is `claude-sonnet-4-20250514` and is configurable with `ANTHROPIC_MODEL`.
+If `ANTHROPIC_MODEL` is not set, the app asks Anthropic which models your API key can access and selects the strongest available model from its preference list.
 
 If you do not want to save the key anywhere, skip `.env`. The app will prompt for the Anthropic key with Python `getpass` when you run it locally. The key will be used for that run only and will not be written to disk.
 

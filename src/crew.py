@@ -27,7 +27,7 @@ OUTPUT_DIR = ROOT / "outputs"
 
 
 def _build_llm() -> LLM:
-    model = os.getenv("ANTHROPIC_MODEL", "claude-3-5-sonnet-latest")
+    model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         api_key = getpass("Enter your Anthropic API key. It will not be saved: ").strip()

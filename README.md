@@ -32,7 +32,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Copy the example environment file:
+Copy the example environment file if you want the app to remember your key locally:
 
 ```bash
 copy .env.example .env
@@ -46,11 +46,21 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 The default model is configurable with `ANTHROPIC_MODEL`.
 
+If you do not want to save the key anywhere, skip `.env`. The app will prompt for the Anthropic key with Python `getpass` when you run it locally. The key will be used for that run only and will not be written to disk.
+
 ## Run Locally
 
 ```bash
 python main.py
 ```
+
+You can also run it from the included notebook:
+
+```text
+run_daily_ai_radar.ipynb
+```
+
+The notebook asks for the Anthropic key with `getpass` and then runs the same production Python code.
 
 Each run creates four files:
 

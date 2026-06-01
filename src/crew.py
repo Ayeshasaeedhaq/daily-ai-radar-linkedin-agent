@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+from getpass import getpass
 from pathlib import Path
 from typing import Any
 
@@ -27,11 +28,12 @@ OUTPUT_DIR = ROOT / "outputs"
 
 def _build_llm() -> LLM:
     model = os.getenv("ANTHROPIC_MODEL", "claude-3-5-sonnet-latest")
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        raise RuntimeError(
-            "ANTHROPIC_API_KEY is missing. Copy .env.example to .env and add your Anthropic API key."
-        )
-    return LLM(model=f"anthropic/{model}", api_key=os.getenv("ANTHROPIC_API_KEY"))
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        api_key = getpass("Enter your Anthropic API key. It will not be saved: ").strip()
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is required to run the agent.")
+    return LLM(model=f"anthropic/{model}", api_key=api_key)
 
 
 def _collect_signals() -> list[dict[str, Any]]:
